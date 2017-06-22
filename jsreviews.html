@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+
+    <style type="text/css">
+    
+        .rating {
+            float:left;
+        }
+
+        /* :not(:checked) is a filter, so that browsers that don’t support :checked don’t 
+           follow these rules. Every browser that supports :checked also supports :not(), so
+           it doesn’t make the test unnecessarily selective */
+        .rating:not(:checked) > input {
+            opacity: 0;
+            position: absolute;
+            margin: 15px;
+            margin-left:167px;
+            z-index: -1;
+        }
+
+        .rating:not(:checked) > label {
+            float:right;
+            width:1em;
+            padding:0 .1em;
+            overflow:hidden;
+            white-space:nowrap;
+            cursor:pointer;
+            font-size:200%;
+            line-height:1.2;
+            color:#ddd;
+        }
+
+        .rating:not(:checked) > label:before {
+            content: '★ ';
+        }
+
+        .rating > input:checked ~ label {
+            color: #f70;
+        }
+
+        .rating:not(:checked) > label:hover,
+        .rating:not(:checked) > label:hover ~ label {
+            color: gold;
+        }
+
+        .rating > input:checked + label:hover,
+        .rating > input:checked + label:hover ~ label,
+        .rating > input:checked ~ label:hover,
+        .rating > input:checked ~ label:hover ~ label,
+        .rating > label:hover ~ input:checked ~ label {
+            color: #ea0;
+        }
+
+        .rating > label:active {
+            position:relative;
+            top:2px;
+            left:2px;
+        }
+
+        .modal{
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top:0;
+            width:100%;
+            height:100%;
+            overflow: auto;
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; 
+            clear: both;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        textarea{
+            resize: none;
+        }
+        @media (min-width:920px){            
+            .modal-content {
+                    width: 40%; 
+            }
+        }
+        .antispam{
+            display: none;
+        }
+        
+        #replacement-content{
+            display:none;
+        }
+        #recency{
+            display: none;
+        }
+    </style>
+
+    
+</head>
+<body>
+    
+    <button id="myBtn">Leave a review</button>
+
+    <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="content-wrapper">
+            <h1>Leave a review</h1>
+            <div id="form-wrapper">
+              <form id="contact-form" method="post">
+                  <p><label for="name">Name:</label> <input id="js-name" type="text" name="name" value="" placeholder="Optional" /></p>
+                  <p><label for="email">Email:</label> <input id="js-email" type="text" name="email" value="" placeholder="Required" required/></p>
+                  <p class="antispam">Leave this empty: <input type="text" name="url" /></p>
+                  <div class="rating">
+                    <input type="radio" id="star5" name="rating" value="5" /><label for="star5" ></label>
+                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4" ></label>
+                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3" ></label>
+                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2" ></label>
+                    <input type="radio" id="star1" name="rating" value="1" required/><label for="star1" ></label>
+                  </div>
+                  <p><textarea name="comments" id="comments" style="width:100%; height:100px;" placeholder="Leave a comment!" required></textarea></p>
+                  <p><input id="subscribe" type="checkbox" name="subscribe" value="yes" checked>Subscribe to our e-mail list<br></p>
+                  <p><input id="submit" class="button" type="submit" value="Submit" /></p>
+                  <div id="result"></div>
+                </form>
+
+              </div>
+          </div>
+          <div id="replacement-content">
+              <h1>Thanks for the review!</h1>
+          </div>
+          <div id="recency">
+              <h1>Thanks for your enthusiasm, but you've reviewed Verb Bars too recently!</h1>
+          </div>
+      </div>
+
+    </div>
+    
+    <script>
+        var modal = document.getElementById('myModal');
+        var btn = document.getElementById("myBtn");
+        var span = document.getElementsByClassName("close")[0];
+        
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
